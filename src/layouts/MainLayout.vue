@@ -15,6 +15,9 @@
         <router-link to="/add">
           Add Cashflow
         </router-link>
+        <router-link to="/transfer">
+          Transfer Cashflow
+        </router-link>
       </div>
     </header>
 

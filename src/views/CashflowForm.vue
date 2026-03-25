@@ -22,7 +22,9 @@ const submit = () => {
 <template>
   <form @submit.prevent="submit">
     <h2>Add Cashflow</h2>
-    {{store.item}}
+    <select v-model="store.item.companyId">
+      <option v-for="company in store.companies" :key="company.id" :value="company.id">{{ company.name }}</option>
+    </select>
     <input v-model="store.item.label" placeholder="Label (e.g. Rent)" required />
     <input v-model.number="store.item.amount" type="number" placeholder="Amount" required />
 

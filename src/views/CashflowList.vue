@@ -1,15 +1,13 @@
 <script setup lang="ts">
 import { useCashflowStore } from '@/stores/cashflow'
 import ProjectionControls from "@/views/ProjectionControls.vue";
-import {useRouter} from "vue-router";
 
 const store = useCashflowStore()
-const router = useRouter()
 </script>
 
 <template>
-    <div v-if="store.items.length > 0" class="table-container">
-      <h2>Building Companies</h2>
+    <div class="table-container">
+      <h2>Cashflow Data</h2>
       <table>
         <thead>
         <tr >
@@ -17,6 +15,7 @@ const router = useRouter()
           <th>Amount</th>
           <th>Type</th>
           <th>Frequency</th>
+          <th>Company</th>
           <th></th>
         </tr>
         </thead>
@@ -26,6 +25,7 @@ const router = useRouter()
           <td>{{row.amount}}</td>
           <td>{{row.type}}</td>
           <td>{{row.frequency}}</td>
+          <td>{{store.getCompanyById(row.companyId)}}</td>
           <td data-label="">
             <div class="table-actions">
               <router-link :to="{ name: 'edit', params: { id: row.id } }">
@@ -39,6 +39,13 @@ const router = useRouter()
       </table>
     </div>
 
+  <hr />
+
+  <h2>Projections</h2>
+  <label class="block font-bold">Select Company</label>
+  <select v-model="store.selectedCompanyId">
+    <option v-for="company in store.companies" :key="company.id" :value="company.id">{{ company.name }}</option>
+  </select>
   <ProjectionControls />
   <div class="table-container">
     <table>

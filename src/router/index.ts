@@ -3,6 +3,7 @@ import {createRouter, createWebHistory, type RouteRecordRaw} from 'vue-router'
 import CashflowList from '../views/CashflowList.vue'
 import CashflowForm from '../views/CashflowForm.vue'
 import MainLayout from '../layouts/MainLayout.vue'
+import CashflowTransferForm from "@/views/CashflowTransferForm.vue";
 
 const routes: RouteRecordRaw[] = [
     {
@@ -24,6 +25,11 @@ const routes: RouteRecordRaw[] = [
                 name: 'edit',
                 component: CashflowForm,
                 props: true
+            },
+            {
+                path: '/transfer',
+                name: 'transfer',
+                component: CashflowTransferForm,
             }
         ]
     },
