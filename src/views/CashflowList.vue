@@ -1,51 +1,61 @@
 <script setup lang="ts">
 import { useCashflowStore } from '@/stores/cashflow'
 import ProjectionControls from "@/views/ProjectionControls.vue";
+import {useRouter} from "vue-router";
 
 const store = useCashflowStore()
+const router = useRouter()
 </script>
 
 <template>
-  <template v-if="store.items.length > 0">
-    <h2 class="text-2xl font-bold mb-4">Building Companies</h2>
-    <table class="w-full border-collapse">
+    <div v-if="store.items.length > 0" class="table-container">
+      <h2>Building Companies</h2>
+      <table>
+        <thead>
+        <tr >
+          <th>Name</th>
+          <th>Amount</th>
+          <th>Type</th>
+          <th>Frequency</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="row in store.items" :key="row.id">
+          <td>{{row.label}}</td>
+          <td>{{row.amount}}</td>
+          <td>{{row.type}}</td>
+          <td>{{row.frequency}}</td>
+          <td data-label="">
+            <div class="table-actions">
+              <router-link :to="{ name: 'edit', params: { id: row.id } }">
+                <button>Edit</button>
+              </router-link>
+              <button class="secondary" @click="store.removeItem(row.id)">Delete</button>
+            </div>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </div>
+
+  <ProjectionControls />
+  <div class="table-container">
+    <table>
       <thead>
-      <tr class="bg-gray-100 text-left">
-        <th class="p-2 border">Name</th>
-        <th class="p-2 border">Amount</th>
-        <th class="p-2 border">Type</th>
-        <th class="p-2 border">frequency</th>
+      <tr>
+        <th>Month</th>
+        <th>Projected Balance</th>
       </tr>
       </thead>
       <tbody>
-      <tr v-for="row in store.items" :key="row.id">
-        <td class="p-2 border">{{row.label}}</td>
-        <td class="p-2 border">{{row.amount}}</td>
-        <td class="p-2 border">{{row.type}}</td>
-        <td class="p-2 border">{{row.frequency}}</td>
+      <tr v-for="row in store.projection" :key="row.month">
+        <td >Month {{ row.month }}</td>
+        <td>${{ row.balance.toLocaleString() }}</td>
       </tr>
       </tbody>
     </table>
-  </template>
-
-  <ProjectionControls />
-
-  <table class="w-full border-collapse">
-    <thead>
-    <tr class="bg-gray-100 text-left">
-      <th class="p-2 border">Month</th>
-      <th class="p-2 border">Projected Balance</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr v-for="row in store.projection" :key="row.month">
-      <td class="p-2 border">Month {{ row.month }}</td>
-      <td class="p-2 border" :class="row.balance < 0 ? 'text-red-500' : 'text-green-600'">
-        ${{ row.balance.toLocaleString() }}
-      </td>
-    </tr>
-    </tbody>
-  </table>
+  </div>
 </template>
 
 <style scoped>

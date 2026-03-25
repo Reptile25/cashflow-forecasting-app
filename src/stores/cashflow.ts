@@ -1,11 +1,20 @@
 import { defineStore } from 'pinia'
 import {type CashflowItem, type Frequency} from '../types/cashflow'
 import {computed, ref} from "vue";
+import {v4 as uuidv4} from 'uuid';
+import {useLocalStorage} from "@vueuse/core";
 
 export const useCashflowStore = defineStore('cashflow', () => {
     // State
     const projectionMonths = ref(12);
-    const items = ref<CashflowItem[]>([]);
+    const items = useLocalStorage<CashflowItem[]>('cashflow-items', []);
+    const item = ref<CashflowItem>({
+        id: uuidv4(),
+        amount: null,
+        frequency: 'daily',
+        label: '',
+        type: 'income',
+    });
 
     // Getters (Computed)
     const projection = computed(() => {
@@ -49,16 +58,44 @@ export const useCashflowStore = defineStore('cashflow', () => {
         return data;
     });
 
-    function isDue(freq: Frequency, day: number): boolean {
-        if (freq === 'daily') return true;
-        if (freq === 'weekly') return day % 7 === 0;
-        if (freq === 'monthly') return day % 30 === 0;
-        return false;
-    }
 
     // Actions
+    function fetchItem(id: string | undefined) {
+        if (id) {
+            const data = items.value.find(i => i.id === id);
+            console.log(data)
+            if (data) {
+                item.value = data;
+            } else {
+                item.value = {
+                    id: uuidv4(),
+                    amount: null,
+                    frequency: 'daily',
+                    label: '',
+                    type: 'income',
+                }
+            }
+        } else {
+            item.value = {
+                id: uuidv4(),
+                amount: null,
+                frequency: 'daily',
+                label: '',
+                type: 'income',
+            }
+        }
+    }
     function addItem(newItem: CashflowItem) {
-        items.value.push({...newItem});
+        const foundData = items.value.find(i => i.id === newItem.id);
+        if (foundData) {
+            Object.assign(foundData, newItem);
+        } else {
+            items.value.push({...newItem});
+        }
+    }
+
+    function removeItem(id: string) {
+        items.value = items.value.filter(i => i.id !== id)
     }
 
 
@@ -66,6 +103,9 @@ export const useCashflowStore = defineStore('cashflow', () => {
         projectionMonths,
         items,
         projection,
-        addItem
+        addItem,
+        removeItem,
+        fetchItem,
+        item
     };
 });

@@ -24,11 +24,278 @@ a,
 @media (min-width: 1024px) {
   body {
     padding: 50px;
-    place-items: center;
   }
 
   #app {
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
+  }
+}
+
+/* ===== Base Reset for Form Elements ===== */
+input,
+select,
+textarea,
+button {
+  font: inherit;
+  margin: 0;
+  border: none;
+  outline: none;
+  background: none;
+}
+
+/* ===== Variables (easy to tweak) ===== */
+:root {
+  --color-primary: #4f46e5;
+  --color-primary-hover: #4338ca;
+  --color-border: #d1d5db;
+  --color-bg: #ffffff;
+  --color-text: #111827;
+  --color-muted: #6b7280;
+  --color-error: #dc2626;
+
+  --radius: 6px;
+  --padding: 0.6rem 0.75rem;
+  --transition: 0.2s ease;
+}
+
+/* ===== Form Layout ===== */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+/* ===== Labels ===== */
+label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-text);
+  margin-bottom: 0.25rem;
+  display: inline-block;
+}
+
+/* ===== Inputs / Select / Textarea ===== */
+input,
+select,
+textarea {
+  width: 100%;
+  padding: var(--padding);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  transition: border var(--transition), box-shadow var(--transition);
+}
+
+/* Placeholder */
+input::placeholder,
+textarea::placeholder {
+  color: var(--color-muted);
+}
+
+/* Focus State */
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+/* Disabled */
+input:disabled,
+select:disabled,
+textarea:disabled {
+  background-color: #f3f4f6;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Error State */
+input.error,
+select.error,
+textarea.error {
+  border-color: var(--color-error);
+}
+
+/* ===== Checkbox & Radio ===== */
+input[type="checkbox"],
+input[type="radio"] {
+  accent-color: var(--color-primary);
+  cursor: pointer;
+}
+
+/* ===== Buttons ===== */
+button {
+  padding: var(--padding);
+  border-radius: var(--radius);
+  background-color: var(--color-primary);
+  color: #fff;
+  cursor: pointer;
+  transition: background-color var(--transition), transform 0.05s ease;
+}
+
+/* Hover */
+button:hover {
+  background-color: var(--color-primary-hover);
+}
+
+/* Active */
+button:active {
+  transform: scale(0.98);
+}
+
+/* Secondary Button */
+button.secondary {
+  background-color: #e5e7eb;
+  color: var(--color-text);
+}
+
+button.secondary:hover {
+  background-color: #d1d5db;
+}
+
+/* Disabled Button */
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ===== Field Group ===== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Inline group (e.g. checkbox + label) */
+.form-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* ===== Small helper text ===== */
+.form-help {
+  font-size: 0.75rem;
+  color: var(--color-muted);
+}
+
+/* Error text */
+.form-error {
+  font-size: 0.75rem;
+  color: var(--color-error);
+}
+
+/* ===== Table Wrapper (optional for responsiveness) ===== */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+/* ===== Table ===== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  font-size: 0.9rem;
+  margin-top: 20px;
+}
+
+/* ===== Header ===== */
+thead {
+  background-color: #f9fafb;
+}
+
+thead th {
+  text-align: left;
+  padding: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text);
+  border-bottom: 1px solid var(--color-border);
+}
+
+/* ===== Body ===== */
+tbody td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--color-border);
+  color: var(--color-text);
+}
+
+/* Remove last row border */
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* ===== Row Hover ===== */
+tbody tr:hover {
+  background-color: #f3f4f6;
+}
+
+/* ===== Zebra Striping ===== */
+tbody tr:nth-child(even) {
+  background-color: #fafafa;
+}
+
+/* ===== Compact Table ===== */
+.table-compact th,
+.table-compact td {
+  padding: 0.5rem;
+}
+
+/* ===== Actions Column (buttons inside table) ===== */
+.table-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+/* ===== Status / Badge ===== */
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.75rem;
+  border-radius: 999px;
+  background-color: #e5e7eb;
+}
+
+.badge.success {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.badge.error {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+/* ===== Responsive tweaks ===== */
+@media (max-width: 640px) {
+  table {
+    font-size: 0.8rem;
+  }
+
+  thead {
+    display: none;
+  }
+
+  tbody tr {
+    display: block;
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: 0.75rem;
+  }
+
+  tbody td {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5rem;
+    border: none;
+  }
+
+  tbody td::before {
+    content: attr(data-label);
+    font-weight: 600;
+    color: var(--color-muted);
   }
 }

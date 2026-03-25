@@ -6,5 +6,5 @@ export interface CashflowItem {
     amount: number | null
     frequency: Frequency
     label: '',
-    type: 'income',
+    type: Type,
 }

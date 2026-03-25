@@ -34,22 +34,12 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px;
-  background: #222;
-  color: white;
 }
 
 .menu {
   position: relative;
 }
 
-.dropdown a {
-  padding: 5px 10px;
-  text-decoration: none;
-}
-
-.dropdown a:hover {
-  background: #eee;
-}
 
 .content {
   padding: 20px;

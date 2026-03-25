@@ -1,27 +1,19 @@
 <script setup lang="ts">
-import {reactive, ref} from 'vue'
+import {onMounted} from 'vue'
 import {useCashflowStore} from '../stores/cashflow'
-import {type CashflowItem, } from '../types/cashflow'
-import {v4 as uuidv4} from 'uuid';
 import {useRouter} from "vue-router";
 
+const props = defineProps(['id'])
 const store = useCashflowStore()
 const router = useRouter()
-const companyId = ref<number | null>(null)
 
-const form = reactive<CashflowItem>({
-  id: uuidv4(),
-  label: '',
-  amount: 0,
-  type: 'income',
-  frequency: 'monthly'
-});
+onMounted(() => {
+  store.fetchItem(props.id)
+})
 
 const submit = () => {
-  if (!form.label || !form.amount) return;
-  store.addItem(form);
-  form.label = '';
-  form.amount = null;
+  if (!store.item.label || !store.item.amount) return;
+  store.addItem(store.item);
   router.push('/')
 
 }
@@ -30,15 +22,16 @@ const submit = () => {
 <template>
   <form @submit.prevent="submit">
     <h2>Add Cashflow</h2>
-    <input v-model="form.label" placeholder="Label (e.g. Rent)" required />
-    <input v-model.number="form.amount" type="number" placeholder="Amount" required />
+    {{store.item}}
+    <input v-model="store.item.label" placeholder="Label (e.g. Rent)" required />
+    <input v-model.number="store.item.amount" type="number" placeholder="Amount" required />
 
-    <select v-model="form.type">
+    <select v-model="store.item.type">
       <option value="income">Income (+)</option>
       <option value="expense">Expense (-)</option>
     </select>
 
-    <select v-model="form.frequency">
+    <select v-model="store.item.frequency">
       <option value="daily">Daily</option>
       <option value="weekly">Weekly</option>
       <option value="monthly">Monthly</option>
