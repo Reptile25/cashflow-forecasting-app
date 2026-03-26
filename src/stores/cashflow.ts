@@ -1,13 +1,13 @@
 import { defineStore } from 'pinia'
-import {type CashflowItem, type Frequency} from '../types/cashflow'
+import type { CashflowItem, CashflowProjection, Companies} from '@/types/cashflow'
 import {computed, ref} from "vue";
 import {v4 as uuidv4} from 'uuid';
 import {useLocalStorage} from "@vueuse/core";
 
 export const useCashflowStore = defineStore('cashflow', () =>{
     // State
-    const projectionMonths = ref(12);
-    const companies = ref([
+    const projectionMonths = ref<number>(12);
+    const companies = ref<Companies[]>([
         {id: 1, name: 'Company A'},
         {id: 2, name: 'Company B'},
         {id: 3, name: 'Company C'},
@@ -27,12 +27,10 @@ export const useCashflowStore = defineStore('cashflow', () =>{
     // Getters (Computed)
     const projection = computed(() => {
         const companyId = selectedCompanyId.value;
-        console.log(companyId)
             let runningBalance = 0;
-            const data = [];
+            const data: CashflowProjection[] = [];
             const totalDays = projectionMonths.value * 30;
             const cashflowData = items.value.filter(item => item.companyId === companyId);
-            console.log(items.value)
 
             for (let day = 1; day <= totalDays; day++) {
                 cashflowData.forEach(item => {
@@ -70,7 +68,7 @@ export const useCashflowStore = defineStore('cashflow', () =>{
             return data;
     });
 
-    const getCompanyById = computed(() => {
+    const getCompanyNameById = computed(() => {
         return (id: number | null) =>  {
             const company = companies.value.find(c => c.id === id)
             if (company) {
@@ -87,25 +85,16 @@ export const useCashflowStore = defineStore('cashflow', () =>{
             const data = items.value.find(i => i.id === id);
             if (data) {
                 item.value = data;
-            } else {
-                item.value = {
-                    id: uuidv4(),
-                    amount: null,
-                    frequency: 'daily',
-                    label: '',
-                    type: 'income',
-                    companyId: null
-                }
+                return
             }
-        } else {
-            item.value = {
-                id: uuidv4(),
-                amount: null,
-                frequency: 'daily',
-                label: '',
-                type: 'income',
-                companyId: null
-            }
+        }
+        item.value = {
+            id: uuidv4(),
+            amount: null,
+            frequency: 'daily',
+            label: '',
+            type: 'income',
+            companyId: null
         }
     }
     function addItem(newItem: CashflowItem) {
@@ -131,7 +120,7 @@ export const useCashflowStore = defineStore('cashflow', () =>{
         fetchItem,
         item,
         companies,
-        getCompanyById,
+        getCompanyNameById,
         selectedCompanyId
     };
 });

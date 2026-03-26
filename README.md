@@ -1,42 +1,60 @@
 # .
 
-This template should help get you started developing with Vue 3 in Vite.
-
-## Recommended IDE Setup
-
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Recommended Browser Setup
-
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
-
-## Type Support for `.vue` Imports in TS
-
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vite.dev/config/).
+This is a Vue.js project that is to calculate a Companies Cashflow forecasting for a given period.
 
 ## Project Setup
 
+1. Install Docker and Docker-Compose
+2. Clone the repository
+```git
+git clone https://github.com/Reptile25/cashflow-forecasting-app.git
+```
+
+3. Go to the project root directory and run the following commands
+### Docker
+
+1. Build the docker image
+```sh
+docker-compose up --build
+```
+
+### NPM
+1. Install dependencies
 ```sh
 npm install
 ```
-
-### Compile and Hot-Reload for Development
-
+2. Run the application in development mode
 ```sh
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+You can access the application at http://localhost:5173/ once development server is running.
 
-```sh
-npm run build
-```
+## Features
+The project is built using Vue3 and has all the following features:
+- A form to add recurring income and expenses (e.g. daily, weekly, monthly)
+- Calculate and display the projected cashflow for N months
+- Allow the user to adjust N Months
+
+Bonus Requirements:
+- Add support for a multi-entity hierarchy with consolidated reporting (having a Company that has each cashflow and calculating the cashflow for each entity)
+- Support inter-entity transfers (transfer cashflow from one company to another)
+
+## Content Used
+- Vue Router that has different views for different sections using `MainLayout.vue` as the parent component with children components
+  - `CashflowList.vue` => Displays the company cashflow data and also shows the cashflow forecast for the given period
+  - `CashflowForm.vue` => Form to add cashflow for each company based on income and expenses
+  - `CashflowTransferForm.vue` => A from that transfers cashflow from one company to another
+- Small CSS assets that make the UI look much better
+- Added Pinia to have a store that will store the cashflow data when moving between views
+- TypeScript used throughout the project and strongly typed
+- Used `Vueuse` library to store cashflow data via the local storge so when the user refreshes the page, the data is still there
+
+## Future Improvements
+- Hook up a backend that will store the cashflow data (change the actions to use an API)
+- Currently, the monthly data is based on 30 days, not date values for each month projections
+- Add a production docker image that will build the application and also build distributions
+- Add a CI/CD pipeline that will handle using the built docker image and deploying it to a server
+- Add unit testing
+
+

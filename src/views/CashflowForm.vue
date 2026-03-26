@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import {onMounted} from 'vue'
-import {useCashflowStore} from '../stores/cashflow'
+import {useCashflowStore} from '@/stores/cashflow'
 import {useRouter} from "vue-router";
 
 const props = defineProps(['id'])

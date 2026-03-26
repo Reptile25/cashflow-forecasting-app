@@ -9,3 +9,13 @@ export interface CashflowItem {
     type: Type,
     companyId: number | null
 }
+export type CashflowProjection = {
+    month: number,
+    balance: number
+}
+
+export interface Companies {
+    id: number,
+    name: string
+}
+

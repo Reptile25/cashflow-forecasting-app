@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useCashflowStore } from '../stores/cashflow'
+import { useCashflowStore } from '@/stores/cashflow.ts'
 
 const store = useCashflowStore()
 </script>

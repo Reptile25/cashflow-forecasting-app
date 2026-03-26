@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { useCashflowStore } from '@/stores/cashflow'
-import ProjectionControls from "@/views/ProjectionControls.vue";
+import ProjectionControls from "@/components/ProjectionControls.vue";
 
 const store = useCashflowStore()
 </script>
@@ -25,7 +25,7 @@ const store = useCashflowStore()
           <td>{{row.amount}}</td>
           <td>{{row.type}}</td>
           <td>{{row.frequency}}</td>
-          <td>{{store.getCompanyById(row.companyId)}}</td>
+          <td>{{store.getCompanyNameById(row.companyId)}}</td>
           <td data-label="">
             <div class="table-actions">
               <router-link :to="{ name: 'edit', params: { id: row.id } }">
